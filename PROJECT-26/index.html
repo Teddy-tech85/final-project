@@ -1,0 +1,100 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do-App</title>
+  <style>
+    body{
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #4776e6, #8e54e9); ;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    container{
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    h2{
+        text-align: center;
+    }
+    input{
+        width: 70%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button{
+        padding: 8px;
+        border: none;
+        background: #4facfe;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+  
+   
+    ul{
+        list-style:none;
+        padding: 0;
+        margin-top: 15px;
+    }
+
+    li{
+        background: #f4f4f4;
+        padding: 8px;
+        margin-bottom: 8px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+      </style>
+</head>
+<body>
+    <div class="container">
+<h2>To-DO-App</h2>
+<input type="text" id="taskInput" placeholder="Enter a Task">
+<button onclick="addTask()">AddTask</button>
+
+<ul id="taskList"></ul>
+<li></li>
+
+</div>
+<script>
+    
+    function addTask(){
+        const input = document.getElementById("taskInput");
+        const task = input.value.trim();
+
+        if (task === "" ) {
+            alert("please enter a task");
+            return;
+        }
+        else{
+
+            localStorage.setItem("task", task);
+        }
+    }
+    const input = document.createElement("li");
+    list.textcontent = tasktext;
+
+    document.getElementById()
+
+   
+function saveTasks(tasks){
+    localStorage.setItem ("tasks",JSON.stringify(tasks));   
+}
+
+
+
+
+    
+</script>
+</body>
+</html>

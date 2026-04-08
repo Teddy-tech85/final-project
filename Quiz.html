@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz App Pro</title>
+ <link rel="stylesheet" href="quiz.css">
+</head>
+
+<body>
+
+<div class="quiz-container">
+  <div class="progress-bar">
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <div class="timer" id="timer">⏱ 10</div>
+
+  <h2 id="question">Question</h2>
+  <div id="answers"></div>
+
+  <button id="nextBtn">Next</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const questions = [
+  {
+    question: "How Much is Fuel Price Currently?",
+    answers: [
+      { text: "#1400", correct: true },
+      { text: "#700", correct: false },
+      { text: "#1700", correct: false },
+      { text: "#250", correct: false }
+    ]
+  },
+  {
+    question: " Who painted The Starry Night?",
+    answers: [
+      { text: "Vincent van Gogh", correct: true },
+      { text: "Mercy", correct: false },
+      { text: "Charles Babbage", correct: false },
+      { text: "loop", correct: false }
+    ]
+  },
+   {
+    question: " What gas do plants absorb from the atmosphere?",
+    answers: [
+      { text: "Carbon dioxide", correct: true },
+      { text: "Atom", correct: false },
+      { text: "Gas", correct: false },
+      { text: "Water", correct: false }
+    ]
+  },
+   {
+    question: " Which planet is known as the Red Planet?",
+    answers: [
+      { text: "Pluto", correct: false },
+      { text: "Mars", correct:  true},
+      { text: "venus", correct: false },
+      { text: "Earth", correct: false }
+    ]
+  }, {
+    question: " Who wrote Romeo and Juliet?",
+    answers: [
+      { text: "William Shakespeare", correct: true },
+      { text: "Mercy", correct: false },
+      { text: "Mr saheed", correct: false },
+      { text: "Victoria", correct: false }
+    ]
+  },
+
+   {
+    question: "  Which sport features the tournament called Wimbledon??",
+    answers: [
+      { text: "Tennis", correct: true },
+      { text: "Basketball", correct: false },
+      { text: "Football", correct: false },
+      { text: "Volleyball", correct: false }
+    ]
+  },
+   
+  {
+    question: "Which country is home to the Great Pyramid of Giza?",
+    answers: [
+      { text: "Togo", correct: false },
+      { text: "Egypt", correct: true },
+      { text: "Canada", correct: false },
+      { text: "Ghana", correct: false }
+    ]
+  }
+];
+
+let current = 0;
+let score = 0;
+let time = 10;
+let timerInterval;
+
+const questionEl = document.getElementById("question");
+const answersEl = document.getElementById("answers");
+const nextBtn = document.getElementById("nextBtn");
+const resultEl = document.getElementById("result");
+const progressEl = document.getElementById("progress");
+const timerEl = document.getElementById("timer");
+
+function startTimer() {
+  time = 10;
+  timerEl.textContent = "⏱ " + time;  
+
+  timerInterval = setInterval(() => {
+    time--;
+    timerEl.textContent = "⏱ " + time;
+
+    if (time === 0) {
+      clearInterval(timerInterval);
+      nextBtn.style.display = "block";
+    }
+  }, 1000);
+}
+
+function showQuestion() {
+  resetState();
+  startTimer();
+
+  const q = questions[current];
+  questionEl.textContent = q.question;
+
+  progressEl.style.width = ((current / questions.length) * 100) + "%";
+
+  q.answers.forEach(answer => {
+    const btn = document.createElement("button");
+    btn.textContent = answer.text;
+
+    btn.onclick = () => selectAnswer(btn, answer.correct);
+
+    answersEl.appendChild(btn);
+  });
+}
+
+function resetState() {
+  nextBtn.style.display = "none";
+  answersEl.innerHTML = "";
+}
+
+function selectAnswer(button, correct) {
+  clearInterval(timerInterval);
+
+  if (correct) {
+    button.classList.add("correct");
+    score++;
+  } else {
+    button.classList.add("wrong");
+  }
+
+  Array.from(answersEl.children).forEach(btn => {
+    btn.disabled = true;
+  });
+
+  nextBtn.style.display = "block";
+}
+
+nextBtn.onclick = () => {
+  current++;
+
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  localStorage.setItem("highScore", score);
+
+  questionEl.textContent = "";
+  answersEl.innerHTML = "";
+  nextBtn.style.display = "none";
+
+  resultEl.innerHTML = `
+    <h2> Your Score: ${score}</h2>
+    <p>High Score: ${localStorage.getItem("highScore")}</p>
+    <button onclick="restart()">Restart</button>
+  `;
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  resultEl.innerHTML = "";
+  showQuestion();
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
